@@ -1,16 +1,11 @@
 #include<stdio.h>
-#include<stdlib.h>
 #include<string.h>
-#define N strlen(g)
+#include<stdlib.h>
+# define N strlen(g)
+char d[30],r[30],g[10];
 int i,j,l;
-char d[20],r[20],g[20];
 void xr(){
-	for(j=1;j<N;j++){
-		if(r[j]==g[j]) 
-			r[j]='0';
-		else 
-			r[j]='1';
-	}
+	for(j=1;j<N;j++)r[j]=((r[j]==g[j])?'0':'1');
 }
 void crc(){
 	for(i=0;i<N;i++)r[i]=d[i];
@@ -20,22 +15,25 @@ void crc(){
 		r[j]=d[i++];
 	}while(i<=l+N-1);
 }
+void rec(){
+	printf("enter the data to be received\n");
+	scanf("%s",&d);
+	printf("the data received is %s\n",d);
+	crc();
+	if(i<N-1)printf("error detected\n");
+	else printf("no error detected\n");
+}
 int main(){
-	printf("enter data: ");
-	scanf("%s",d);
-	printf("enter gen pol: ");
+	printf("enter the data to be transmitted\n");
+	scanf ("%s",d);
+	printf("enter the polynomial\n");
 	scanf("%s",g);
 	l=strlen(d);
-	for(i=l;i<l+N-1;i++){
-		d[i]='0';
-	}
-	printf("data after adding 0s: %s\n",d);
+	for(i=l;i<l+N-1;i++)d[i]='0';
+	printf("data padded with zero will be %s\n",d);
 	crc();
-	printf("the remainder is: %s\n",r);
+	printf("the remainder is %s",r);
 	for(i=l;i<l+N-1;i++)d[i]=r[i-l];
-	printf("the data recived is: %s\n",d);
-	crc();
-	if(i<N-1)printf("\nerror detected\n");
-	else printf("\nno error");
-	return 0;
+	printf("the final data to be sent is %s\n",d);
+	rec();
 }
